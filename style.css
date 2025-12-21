@@ -15,13 +15,6 @@ body{
   color:var(--fg);
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
-  
-  background-image: url('./bg.png');
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  mix-blend-mode: difference;
 }
 
 a{color:var(--fg);text-decoration:none}
@@ -51,7 +44,7 @@ nav{margin-left:auto}
   display:flex;gap:28px;align-items:center;padding:48px 0;
 }
 .hero-left{flex:1}
-.catch{font-size:28px;font-weight:800;color:var(--fg);}
+.catch{font-size:28px;font-weight:800;}
 .lead{margin-top:14px;color:var(--muted);max-width:60ch}
 
 .hero-actions{margin-top:20px;display:flex;gap:12px}
