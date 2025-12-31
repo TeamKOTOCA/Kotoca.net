@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Celestial New Year - 天文学的年越し</title>
     <meta property="og:title" content="Celestial New Year | 天文学的年越しカウントダウン" />
-<meta property="og:description" content="兵庫県明石市なんて場所の年越しを迎えてもねぇ…" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://kotoca.net/" />
-<meta property="og:image" content="https://kotoca.net/bg.png" />
-<meta property="og:site_name" content="Celestial New Year" />
+    <meta property="og:description" content="兵庫県明石市なんて場所の年越しを迎えてもねぇ…" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kotoca.net/" />
+    <meta property="og:image" content="https://kotoca.net/bg.png" />
+    <meta property="og:site_name" content="Celestial New Year" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Celestial New Year | 天文学的年越し" />
-<meta name="twitter:description" content="兵庫県明石市なんて場所の年越しを迎えてもねぇ…" />
-<meta name="twitter:image" content="https://kotoca.net/bg.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Celestial New Year | 天文学的年越し" />
+    <meta name="twitter:description" content="兵庫県明石市なんて場所の年越しを迎えてもねぇ…" />
+    <meta name="twitter:image" content="https://kotoca.net/bg.png" />
 
     <style>
         :root {
@@ -104,6 +104,20 @@
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
+        .share-group {
+            margin-top: 2rem;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-share {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .info {
             margin-top: 1.5rem;
             font-size: 0.8rem;
@@ -127,6 +141,11 @@
         <div id="target-jst" class="time-value">00:00:00</div>
     </div>
 
+    <div class="share-group">
+        <button onclick="shareX()" class="btn-share">𝕏 でシェア</button>
+        <button onclick="copyResult()" id="copy-btn" class="btn-share" style="border-color: #666; color: #ccc;">結果をコピー</button>
+    </div>
+
     <div class="info">
         <p id="location-text">基準地点: 東経 135.0度 (明石市付近)</p>
         <p>経度に基づいた「地方平均太陽時」での0時0分を、日本標準時(JST)で表示しています。</p>
@@ -143,12 +162,7 @@
         const longitude = parseFloat(longInput.value);
         if (isNaN(longitude)) return;
 
-        // JST基準（135度）との差分を分で計算
-        // 1度あたり4分
         const diffMinutes = (longitude - 135) * 4;
-        
-        // 天文学的な0時0分0秒は、JSTからこの差分を引いた時間になる
-        // 例: 東経140度（東京付近）なら、JST 23:40 に天文学的0時を迎える
         let baseDate = new Date();
         baseDate.setHours(0, 0, 0, 0);
         
@@ -156,10 +170,9 @@
         const targetTime = new Date(baseDate.getTime() - offsetMs);
 
         const hours = String(targetTime.getHours()).padStart(2, '0');
-        const minutes = String(targetTime.padMinutes ? targetTime.getMinutes() : targetTime.getMinutes()).padStart(2, '0');
+        const minutes = String(targetTime.getMinutes()).padStart(2, '0');
         const seconds = String(targetTime.getSeconds()).padStart(2, '0');
 
-        // 年越しを跨ぐ表現にするため、時間の調整
         if (longitude > 135) {
             targetDisplay.innerText = `12/31 ${hours}:${minutes}:${seconds}`;
         } else if (longitude < 135) {
@@ -183,6 +196,29 @@
         } else {
             alert("お使いのブラウザは位置情報に対応していません。");
         }
+    }
+
+    // シェア機能
+    function getShareMessage() {
+        const lng = parseFloat(longInput.value).toFixed(4);
+        const time = targetDisplay.innerText;
+        return `私の場所（東経${lng}度）での天文学的な年越し時刻は、日本標準時で【${time}】でした。 #CelestialNewYear #天文学的年越し`;
+    }
+
+    function shareX() {
+        const text = encodeURIComponent(getShareMessage());
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    }
+
+    function copyResult() {
+        const text = getShareMessage();
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copy-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "コピーしました";
+            setTimeout(() => { btn.innerText = originalText; }, 2000);
+        });
     }
 
     longInput.addEventListener('input', calculateTime);
