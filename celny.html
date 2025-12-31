@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial New Year - 天文学的年越し</title>
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --accent-color: #ffd700;
+            --text-color: #e0e0e0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #1a1f2c 0%, #0b0e14 100%);
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            font-weight: 200;
+            letter-spacing: 4px;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input[type="number"] {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #444;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 120px;
+            text-align: center;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent-color);
+            color: black;
+        }
+
+        .result-display {
+            margin-top: 2rem;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-value {
+            font-size: 2.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .info {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CELESTIAL NY</h1>
+    
+    <div class="input-group">
+        <input type="number" id="longitude" step="0.0001" placeholder="東経を入力" value="135.0000">
+        <button onclick="getLocation()">現在地を取得</button>
+    </div>
+
+    <div class="result-display">
+        <div class="time-label">この地点の年越し（JST基準）</div>
+        <div id="target-jst" class="time-value">00:00:00</div>
+    </div>
+
+    <div class="info">
+        <p id="location-text">基準地点: 東経 135.0度 (明石市付近)</p>
+        <p>経度に基づいた「地方平均太陽時」での0時0分を、日本標準時(JST)で表示しています。</p>
+        <p><small>位置情報を含む全データはブラウザ内で処理され、サーバーに送られません</small></p>
+    </div>
+</div>
+
+<script>
+    const longInput = document.getElementById('longitude');
+    const targetDisplay = document.getElementById('target-jst');
+    const locationText = document.getElementById('location-text');
+
+    function calculateTime() {
+        const longitude = parseFloat(longInput.value);
+        if (isNaN(longitude)) return;
+
+        // JST基準（135度）との差分を分で計算
+        // 1度あたり4分
+        const diffMinutes = (longitude - 135) * 4;
+        
+        // 天文学的な0時0分0秒は、JSTからこの差分を引いた時間になる
+        // 例: 東経140度（東京付近）なら、JST 23:40 に天文学的0時を迎える
+        let baseDate = new Date();
+        baseDate.setHours(0, 0, 0, 0);
+        
+        const offsetMs = diffMinutes * 60 * 1000;
+        const targetTime = new Date(baseDate.getTime() - offsetMs);
+
+        const hours = String(targetTime.getHours()).padStart(2, '0');
+        const minutes = String(targetTime.padMinutes ? targetTime.getMinutes() : targetTime.getMinutes()).padStart(2, '0');
+        const seconds = String(targetTime.getSeconds()).padStart(2, '0');
+
+        // 年越しを跨ぐ表現にするため、時間の調整
+        if (longitude > 135) {
+            targetDisplay.innerText = `12/31 ${hours}:${minutes}:${seconds}`;
+        } else if (longitude < 135) {
+            targetDisplay.innerText = `01/01 ${hours}:${minutes}:${seconds}`;
+        } else {
+            targetDisplay.innerText = `00:00:00`;
+        }
+
+        locationText.innerText = `地点: 東経 ${longitude.toFixed(4)}度 / JSTとの差: ${Math.abs(diffMinutes).toFixed(1)}分`;
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lng = position.coords.longitude;
+                longInput.value = lng.toFixed(4);
+                calculateTime();
+            }, () => {
+                alert("位置情報が取得できませんでした。");
+            });
+        } else {
+            alert("お使いのブラウザは位置情報に対応していません。");
+        }
+    }
+
+    longInput.addEventListener('input', calculateTime);
+    calculateTime();
+</script>
+
+</body>
+</html>
