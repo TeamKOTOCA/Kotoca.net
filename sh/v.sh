@@ -1,27 +1,37 @@
 #!/bin/bash
+# ~/.local/libexec/d/logic.sh
 
-BLUE='\033[0;34m'
-NC='\033[0m'
-BOLD='\033[1m'
+_is_sourced() { [[ "${BASH_SOURCE[0]}" != "$0" ]]; }
 
-# ディレクトリ取得
-dirs=( ".." $(ls -d */ 2>/dev/null | sed 's/\/$//') )
+BLUE=$(tput setaf 4 2>/dev/null || echo "")
+BOLD=$(tput bold 2>/dev/null || echo "")
+NC=$(tput sgr0 2>/dev/null || echo "")
 
-echo -e "${BOLD}Current: $(pwd)${NC}"
-echo "--------------------------"
-for i in "${!dirs[@]}"; do
+while true; do
+  dirs=("..")
+
+  while IFS= read -r -d '' d; do
+    dirs+=("$(basename "$d")")
+  done < <(find . -maxdepth 1 -mindepth 1 -type d -print0 2>/dev/null)
+
+  echo -e "${BOLD}Current:${NC} $(pwd)"
+  echo "--------------------------"
+  for i in "${!dirs[@]}"; do
     printf "${BLUE}%2d)${NC} %s\n" "$i" "${dirs[$i]}"
-done
-echo "--------------------------"
+  done
+  echo "--------------------------"
 
-read -p "Select [Number/q]: " choice
-[[ "$choice" == "q" ]] && return
+  read -r -p "Select [Number / Enter=exit / q]: " choice
 
-if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -lt "${#dirs[@]}" ]; then
-    cd "${dirs[$choice]}"
-    echo -e "\n${BOLD}Moved to: $(pwd)${NC}"
-    ls --color=auto -F
-else
+  if [ -z "$choice" ] || [ "$choice" = "q" ]; then
+    return 0 2>/dev/null || exit 0
+  fi
+
+  if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -lt "${#dirs[@]}" ]; then
+    cd -- "${dirs[$choice]}" || echo "移動失敗"
+  else
     echo "Invalid input."
-fi
+  fi
 
+  echo
+done
