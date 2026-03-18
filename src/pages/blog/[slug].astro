@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { blogItems } from '../../components/siteData';
+
+export function getStaticPaths() {
+  return blogItems.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<BaseLayout title={`${item.title} | TeamKOTOCA`} description={item.summary} currentPath="/blog">
+  <article class="article-hero">
+    <div class="container article-hero-grid fade-in">
+      <div>
+        <a class="back-link" href="/blog">← Blog一覧へ戻る</a>
+        <span class="eyebrow">Blog Article</span>
+        <h1>{item.title}</h1>
+        <time datetime={item.date}>{item.date}</time>
+        <p class="hero-copy">{item.hero}</p>
+      </div>
+      <img src="/dummy.webp" alt="記事イメージのダミー画像" loading="lazy" />
+    </div>
+  </article>
+
+  <section>
+    <div class="container article-shell fade-in">
+      {item.sections.map((section) => (
+        <section class="article-section">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .article-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.9fr);
+    gap: clamp(1.5rem, 5vw, 3rem);
+    align-items: center;
+  }
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+  .article-hero h1 {
+    margin: 0.8rem 0 1rem;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.1;
+  }
+  .article-hero time { color: var(--muted); }
+  .hero-copy {
+    max-width: 48rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+  .article-hero img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    background: var(--card-bg);
+  }
+  .article-shell {
+    max-width: 860px;
+    display: grid;
+    gap: 2rem;
+  }
+  .article-section {
+    padding: 1.6rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.06)), var(--card-bg);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+  }
+  .article-section h2 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+  }
+  .article-section p {
+    margin: 0 0 1rem;
+    color: var(--muted);
+  }
+  .article-section p:last-child { margin-bottom: 0; }
+  @media (max-width: 800px) {
+    .article-hero-grid { grid-template-columns: 1fr; }
+  }
+</style>

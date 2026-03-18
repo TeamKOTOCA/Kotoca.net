@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { blogItems, newsItems, projects } from '../components/siteData';
+import { blogItems, communityPartners, newsItems, projects, teamMembers } from '../components/siteData';
 ---
 
 <BaseLayout
@@ -47,6 +47,7 @@ import { blogItems, newsItems, projects } from '../components/siteData';
 
       <aside class="hero-aside">
         <article class="story-card spotlight-card">
+          <img src="/dummy.webp" alt="チーム紹介用のダミー画像" loading="lazy" />
           <span class="meta-label">Focus</span>
           <h2>つくる余白を、もっと広く。</h2>
           <p>
@@ -145,8 +146,9 @@ import { blogItems, newsItems, projects } from '../components/siteData';
         {blogItems.map((item) => (
           <article class="blog-card">
             <time datetime={item.date}>{item.date}</time>
-            <h3>{item.title}</h3>
+            <h3><a href={`/blog/${item.slug}`}>{item.title}</a></h3>
             <p>{item.summary}</p>
+            <a class="text-link" href={`/blog/${item.slug}`}>個別ページで読む</a>
           </article>
         ))}
       </div>
@@ -161,11 +163,17 @@ import { blogItems, newsItems, projects } from '../components/siteData';
           <h2>メンバー</h2>
         </div>
       </div>
-      <div class="info-grid">
-        <article class="card info-card">
-          <h3>Povo43</h3>
-          <p>Owner / Backend / Architecture</p>
-        </article>
+      <div class="profile-grid">
+        {teamMembers.map((member) => (
+          <article class="profile-card">
+            <img src={member.image} alt={`${member.name} の紹介用ダミー画像`} loading="lazy" />
+            <div class="profile-content">
+              <h3>{member.name}</h3>
+              <p class="profile-role">{member.role}</p>
+              <p>{member.description}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -187,6 +195,10 @@ import { blogItems, newsItems, projects } from '../components/siteData';
           <h3>設計レビュー</h3>
           <p>短いサイクルで相談しながら、実装だけでなくアーキテクチャや運用導線も整えます。</p>
         </article>
+        <article class="card info-card">
+          <h3>ナレッジ共有</h3>
+          <p>試したこと、失敗したこと、役立った手順をチームで共有し、次の挑戦を速くします。</p>
+        </article>
       </div>
     </div>
   </section>
@@ -199,11 +211,16 @@ import { blogItems, newsItems, projects } from '../components/siteData';
           <h2>連携コミュニティ</h2>
         </div>
       </div>
-      <div class="info-grid">
-        <article class="card info-card">
-          <h3>Sakana Cloud Lab</h3>
-          <p>Swifty読み上げBotをはじめ、多様なサービスの開発・ホスティングを行うコミュニティです。</p>
-        </article>
+      <div class="profile-grid single-column">
+        {communityPartners.map((community) => (
+          <article class="profile-card partner-card">
+            <img src={community.image} alt={`${community.name} の紹介用ダミー画像`} loading="lazy" />
+            <div class="profile-content">
+              <h3>{community.name}</h3>
+              <p>{community.description}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -256,7 +273,8 @@ import { blogItems, newsItems, projects } from '../components/siteData';
   .blog-card p,
   .contact-card,
   .owner-panel p,
-  .stat-card p { color: var(--muted); }
+  .stat-card p,
+  .profile-content p { color: var(--muted); }
 
   .lead { margin-top: 1.4rem; max-width: 44rem; font-size: 1.05rem; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2rem; }
@@ -295,15 +313,25 @@ import { blogItems, newsItems, projects } from '../components/siteData';
   }
 
   .hero-aside { position: sticky; top: 6rem; }
+  .spotlight-card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 1px solid var(--line);
+  }
   .spotlight-card h2 { margin: 0.8rem 0 1rem; font-size: clamp(1.7rem, 3vw, 2.5rem); }
 
   .info-grid,
   .story-grid,
-  .projects-grid {
+  .projects-grid,
+  .profile-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.2rem;
   }
+
+  .single-column { grid-template-columns: 1fr; }
 
   .project-card {
     display: grid;
@@ -315,7 +343,8 @@ import { blogItems, newsItems, projects } from '../components/siteData';
   .project-card h3,
   .news-card h3,
   .blog-card h3,
-  .info-card h3 { margin: 0 0 0.7rem; font-size: 1.15rem; }
+  .info-card h3,
+  .profile-content h3 { margin: 0 0 0.7rem; font-size: 1.15rem; }
   .project-links { display: flex; flex-wrap: wrap; gap: 0.55rem; }
 
   .project-links a,
@@ -342,6 +371,29 @@ import { blogItems, newsItems, projects } from '../components/siteData';
   .text-link { color: var(--muted); }
   .news-card time,
   .blog-card time { color: var(--muted); margin-bottom: 0.8rem; }
+
+  .profile-card {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1fr);
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.06)), var(--card-bg);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .profile-card img {
+    width: 100%;
+    height: 100%;
+    min-height: 220px;
+    object-fit: cover;
+    background: rgba(255,255,255,0.3);
+  }
+  .profile-content { padding: 1.4rem; }
+  .profile-role {
+    margin-top: -0.1rem;
+    font-weight: 700;
+    color: var(--fg) !important;
+  }
+  .partner-card { max-width: 860px; }
 
   .contact-card { max-width: 760px; }
   .contact-form { display: grid; gap: 1rem; }
@@ -373,9 +425,11 @@ import { blogItems, newsItems, projects } from '../components/siteData';
     .hero-grid,
     .info-grid,
     .story-grid,
-    .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .projects-grid,
+    .profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hero-aside { position: static; }
+    .profile-card { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 720px) {
@@ -383,7 +437,8 @@ import { blogItems, newsItems, projects } from '../components/siteData';
     .info-grid,
     .story-grid,
     .projects-grid,
-    .stats-grid { grid-template-columns: 1fr; }
+    .stats-grid,
+    .profile-grid { grid-template-columns: 1fr; }
     .hero-copy h1 { font-size: clamp(2.5rem, 14vw, 4rem); }
   }
 </style>
