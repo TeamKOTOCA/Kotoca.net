@@ -51,8 +51,32 @@ nav{margin-left:auto}
 .btn{display:inline-block;padding:10px 16px;border:2px solid var(--fg);background:transparent;font-weight:700}
 .btn.primary{background:var(--fg);color:var(--bg)}
 
+.quick-stats{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:10px;
+}
+
+.quick-stats strong{font-size:20px}
+
 .hero-right{width:340px}
 .card{background:var(--card-bg);padding:18px;border:1px solid rgba(0,0,0,0.06)}
+
+.info-grid,
+.team-grid,
+.community-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.info-grid h3,
+.team-grid h3,
+.community-grid h3{
+  margin-bottom:8px;
+  font-size:16px;
+}
 
 /* プロジェクト一覧 */
 h2{margin:28px 0 12px;font-size:18px}
@@ -141,4 +165,52 @@ footer{margin-top:48px;padding:18px 0;border-top:1px solid rgba(0,0,0,0.06)}
   .join{grid-template-columns:1fr}
   .hero-right{width:100%}
   .brand{gap:10px}
+}
+
+
+/* 既存トーンを保った軽いアニメーション */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero,
+section {
+  animation: fadeUp 0.45s ease-out both;
+}
+
+.card,
+.project {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover,
+.project:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0,0,0,0.2);
+}
+
+.nav-list a,
+.links-list a,
+.btn {
+  transition: opacity 0.2s ease;
+}
+
+.nav-list a:hover,
+.links-list a:hover,
+.btn:hover {
+  opacity: 0.82;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero,
+  section,
+  .card,
+  .project,
+  .nav-list a,
+  .links-list a,
+  .btn{
+    animation: none !important;
+    transition: none !important;
+  }
 }
