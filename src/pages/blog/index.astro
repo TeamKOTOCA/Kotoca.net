@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { blogItems } from '../../components/siteData';
+---
+
+<BaseLayout title="Blog | TeamKOTOCA" description="TeamKOTOCAのBlog一覧ページです。" currentPath="/blog">
+  <article class="page-hero">
+    <div class="container fade-in">
+      <span class="eyebrow">Blog</span>
+      <h1>Blog</h1>
+      <p>TeamKOTOCAの考え方や開発スタイルを紹介する読み物をまとめています。</p>
+    </div>
+  </article>
+
+  <section>
+    <div class="container feed-list fade-in">
+      {blogItems.map((item) => (
+        <article class="feed-card">
+          <time datetime={item.date}>{item.date}</time>
+          <h2>{item.title}</h2>
+          <p>{item.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero p { max-width: 42rem; color: var(--muted); font-size: 1.05rem; }
+  .feed-list { display: grid; gap: 1rem; }
+  .feed-card {
+    padding: 1.5rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.06)), var(--card-bg);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+  }
+  .feed-card time { color: var(--muted); font-size: 0.92rem; }
+  .feed-card h2 { margin: 0.55rem 0 0.8rem; font-size: 1.45rem; }
+  .feed-card p { margin: 0; color: var(--muted); }
+</style>
