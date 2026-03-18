@@ -13,21 +13,27 @@ export const navItems = [
 export const projects = [
   {
     title: 'microhttp',
-    description: '組み込み用途に設計した超小型のC言語製軽量APIサーバー。',
+    description: '組み込み用途に向けて設計した、超小型のC言語製APIサーバーです。',
+    image: '/dummy.webp',
+    imageAlt: 'microhttp のイメージ',
     links: [{ href: 'https://github.com/TeamKOTOCA/microhttapi', label: 'GitHub' }],
   },
   {
     title: 'Portapad',
-    description: 'スマホなどをPCの入力装置に変えるソフト。現在は再設計の準備中です。',
+    description: 'スマートフォンなどをPCの入力デバイスとして使えるようにするソフトで、現在は再設計を進めています。',
+    image: '/dummy.webp',
+    imageAlt: 'Portapad のイメージ',
     links: [
-      { href: 'https://github.com/TeamKOTOCA/PortaPad', label: 'GitHub(host)' },
-      { href: 'https://github.com/TeamKOTOCA/portapad_web', label: 'GitHub(client)' },
-      { href: 'https://github.com/TeamKOTOCA/Portapad_signal_pub', label: 'GitHub(sig_server)' },
+      { href: 'https://github.com/TeamKOTOCA/PortaPad', label: 'GitHub (host)' },
+      { href: 'https://github.com/TeamKOTOCA/portapad_web', label: 'GitHub (client)' },
+      { href: 'https://github.com/TeamKOTOCA/Portapad_signal_pub', label: 'GitHub (signal server)' },
     ],
   },
   {
     title: 'Kotoca Sites Backend',
-    description: 'フォーム受付や運用系導線を支える、周辺サービス群のバックエンド基盤。',
+    description: 'フォーム受付や運用まわりを支える、周辺サービス向けのバックエンド基盤です。',
+    image: '/dummy.webp',
+    imageAlt: 'Kotoca Sites Backend のイメージ',
     links: [{ href: 'https://github.com/TeamKOTOCA', label: 'Organization' }],
   },
 ];
@@ -146,15 +152,24 @@ export const blogItems = [
 export const teamMembers = [
   {
     name: 'Povo43',
-    role: 'Owner / Backend / Architecture',
-    description: 'アーキテクチャ設計から実装、運用まで横断して前に進めるコアメンバーです。',
+    role: 'オーナー / バックエンド / アーキテクチャ',
+    description: 'アーキテクチャ設計から実装、運用まで横断しながら、プロジェクト全体を前に進めています。',
     image: '/dummy.webp',
+    socials: [
+      { platform: 'github', label: 'GitHub', href: 'https://github.com/TeamKOTOCA' },
+      { platform: 'x', label: 'X', href: 'https://x.com/' },
+      { platform: 'qiita', label: 'Qiita', href: 'https://qiita.com/' },
+    ],
   },
   {
     name: 'Core Members',
     role: 'Web / Rust / Infra / Design',
     description: '得意分野の違うメンバーが、相談しながらそれぞれのプロジェクトを育てています。',
     image: '/dummy.webp',
+    socials: [
+      { platform: 'github', label: 'GitHub', href: 'https://github.com/TeamKOTOCA' },
+      { platform: 'qiita', label: 'Qiita', href: 'https://qiita.com/' },
+    ],
   },
 ];
 
