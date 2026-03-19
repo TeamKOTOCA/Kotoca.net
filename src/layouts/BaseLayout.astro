@@ -5,9 +5,21 @@ interface Props {
   title: string;
   description: string;
   currentPath?: string;
+  ogImage?: string;
+  ogType?: string;
 }
 
-const { title, description, currentPath = '/' } = Astro.props;
+const { 
+  title, 
+  description, 
+  currentPath = '/', 
+  ogImage = '/bg.png', // デフォルト画像パス
+  ogType = 'website' 
+} = Astro.props;
+
+// 完全なURLを生成する場合（サイトのドメインが決まっているなら）
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -18,6 +30,20 @@ const { title, description, currentPath = '/' } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:site_name" content="TeamKOTOCA" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@TeamKOTOCA" /> <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+    
+    <link rel="canonical" href={canonicalURL} />
   </head>
   <body>
     <Header currentPath={currentPath} />
