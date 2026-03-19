@@ -10,8 +10,8 @@ interface Props {
 }
 
 const { 
-  title, 
-  description, 
+  title = 'TeamKOTOCA', 
+  description = 'TeamKOTOCAは開発者集団です。', 
   currentPath = '/', 
   ogImage = '/bg.png', // デフォルト画像パス
   ogType = 'website' 
@@ -29,7 +29,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -39,7 +39,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     <meta property="og:site_name" content="TeamKOTOCA" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@TeamKOTOCA" /> <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
     
