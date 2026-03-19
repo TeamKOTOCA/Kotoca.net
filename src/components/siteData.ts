@@ -10,18 +10,20 @@ export const navItems = [
   { href: '/#contact', label: 'Contact' },
 ];
 
+const images_pro = import.meta.glob<{ default: ImageMetadata }>('/src/assets/projects/*.{jpeg,jpg,png,gif,webp}', { eager: true });
+
 export const projects = [
   {
-    title: 'microhttp',
-    description: '組み込み用途に向けて設計した、超小型のC言語製APIサーバーです。',
-    image: '/dummy.webp',
-    imageAlt: 'microhttp のイメージ',
-    links: [{ href: 'https://github.com/TeamKOTOCA/microhttapi', label: 'GitHub' }],
+    title: 'Uploader',
+    description: '操作がとても簡単なファイル募集サイトです。',
+    image: images_pro['/src/assets/projects/uploader.webp']?.default,
+    imageAlt: 'Uploaderの画像',
+    links: [{ href: 'https://github.com/TeamKOTOCA/Uploader', label: 'GitHub' }],
   },
   {
     title: 'Portapad',
     description: 'スマートフォンなどをPCの入力デバイスとして使えるようにするソフトで、現在は再設計を進めています。',
-    image: '/dummy.webp',
+    image: images_pro['/src/assets/projects/portapad.png']?.default,
     imageAlt: 'Portapad のイメージ',
     links: [
       { href: 'https://github.com/TeamKOTOCA/PortaPad', label: 'GitHub (host)' },
@@ -30,9 +32,9 @@ export const projects = [
     ],
   },
   {
-    title: 'Kotoca Sites Backend',
+    title: 'KOTOCA Sites Backend',
     description: 'フォーム受付や運用まわりを支える、周辺サービス向けのバックエンド基盤です。',
-    image: '/dummy.webp',
+    image: images_pro['/src/assets/projects/noimg.png']?.default,
     imageAlt: 'Kotoca Sites Backend のイメージ',
     links: [{ href: 'https://github.com/TeamKOTOCA', label: 'Organization' }],
   },
@@ -42,17 +44,12 @@ export const newsItems = [
   {
     date: '2026-03-18',
     title: '公式サイトをAstro SSG構成へ移行',
-    summary: 'Cloudflare Pagesで配信しやすい静的構成に刷新し、News / Blog導線も追加しました。',
-  },
-  {
-    date: '2026-03-10',
-    title: 'TeamKOTOCAの開発導線を整理',
-    summary: 'プロジェクト・コミュニティ・参加方法を横断して把握できるようにトップ情報を再整理しました。',
+    summary: 'Cloudflare Pagesで配信しやすい静的構成に刷新し、Blogを追加しました。',
   },
   {
     date: '2026-02-28',
     title: '新規メンバー募集を継続中',
-    summary: 'Web / Rust / C / インフラに関心のある仲間を、学生・社会人問わず募集しています。',
+    summary: 'プログラミング / マーケティング / インフラに関心のある仲間を、学生・社会人問わず募集しています。',
   },
 ];
 
@@ -60,7 +57,7 @@ export const blogItems = [
   {
     slug: 'build-small-learn-fast',
     date: '2026-03-16',
-    title: '小さく作って早く試す、TeamKOTOCAの開発スタイル',
+    title: 'めっちゃデモ記事',
     summary: '試作・改善・継続運用まで見据えた、軽量な開発サイクルの考え方を紹介します。',
     hero: '小さな検証を繰り返して、長く使える形へ育てる。TeamKOTOCAが普段の開発で大切にしている視点をまとめました。',
     sections: [
@@ -87,88 +84,20 @@ export const blogItems = [
       },
     ],
   },
-  {
-    slug: 'collaboration-for-students-and-workers',
-    date: '2026-03-02',
-    title: '学生でも社会人でも参加しやすい共同開発の形',
-    summary: '稼働時間や得意分野が違っても協力しやすい、ゆるく強いチーム設計についてまとめました。',
-    hero: '生活リズムも得意分野も違うメンバーが、無理なく継続できる共同開発の進め方を紹介します。',
-    sections: [
-      {
-        heading: '参加しやすさはルールの軽さだけで決まらない',
-        paragraphs: [
-          '共同開発に参加しやすい空気を作るには、単に自由度を高くするだけでは足りません。どこに情報があり、何を相談すればよく、どこまで自分の裁量で進めてよいのかが見えることが重要です。',
-          'TeamKOTOCAでは、参加頻度の違いを前提にしながらも、プロジェクトの状況が追いやすいように導線を整理し、会話の入口を用意します。短い稼働時間でも追従しやすいことが継続性につながります。',
-        ],
-      },
-      {
-        heading: '役割よりも関心から動ける状態を作る',
-        paragraphs: [
-          '固定的な担当で線を引きすぎると、忙しい時期に作業が止まりやすくなります。そこで、TeamKOTOCAでは「自分が一番前に進められる部分」を見つけて取り組める余白を大切にしています。',
-          '設計が得意な人、実装が得意な人、運用の整理が得意な人が、それぞれ自然に貢献できる状態を作ることで、参加者の幅が広がります。専門性は尊重しつつ、閉じないチームを目指しています。',
-        ],
-      },
-      {
-        heading: '長く続くチームは相談しやすさで支えられる',
-        paragraphs: [
-          '忙しさや経験差がある環境では、相談のしやすさが品質そのものに影響します。困ったときに早く聞ける、途中段階でも共有できる、という文化があるだけで手戻りは大きく減ります。',
-          'そのために、TeamKOTOCAでは完成前のラフな状態から見せることを歓迎し、途中経過を共有すること自体を価値として扱っています。メンバーが無理なく関われる設計が、結果として強いチームを作ります。',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'team-supports-indie-projects',
-    date: '2026-02-20',
-    title: '実運用を見据えた個人開発をチームで支える',
-    summary: '個人のアイデアを活かしつつ、レビューや相談で前進しやすくするための工夫を書いています。',
-    hero: '個人開発の自由さを残しながら、実運用に耐える形へ近づけるためにチームができる支援を整理しました。',
-    sections: [
-      {
-        heading: '個人開発の強みを消さない',
-        paragraphs: [
-          '個人開発の魅力は、意思決定の速さと発想の自由さにあります。TeamKOTOCAでは、その勢いを失わせないことを前提に、必要なタイミングだけチームの知見を差し込む形を大切にしています。',
-          '最初から全員で抱えるのではなく、アイデアの核を持つ人が前に進みつつ、必要に応じてレビューや相談を受けられる状態にすることで、個人の推進力とチームの補助線を両立します。',
-        ],
-      },
-      {
-        heading: 'レビューはブレーキではなく加速装置',
-        paragraphs: [
-          'レビューの目的は、細かな指摘を増やすことではなく、実装者が次に進みやすくなることです。保守性、命名、責務分割、公開時のリスクなどを早めに確認しておくと、後半での大きなやり直しを避けられます。',
-          '特に公開や継続運用を考えるなら、機能だけでなく導入手順や問い合わせ導線など、周辺の設計も重要です。チームで見ることで、開発者一人では気づきにくい観点を補えます。',
-        ],
-      },
-      {
-        heading: '相談できる場所が挑戦の幅を広げる',
-        paragraphs: [
-          '個人開発では、難所に当たったときに手が止まりやすいものです。そこに相談できる相手がいるだけで、技術選定や実装方針の候補が増え、挑戦しやすい範囲が広がります。',
-          'TeamKOTOCAは、個人のアイデアを中心に置きながら、実装・設計・運用の壁を一緒に越える伴走役でありたいと考えています。個人の熱量を、継続できる形へ育てることがチームの価値です。',
-        ],
-      },
-    ],
-  },
 ];
+
+const images_mem = import.meta.glob<{ default: ImageMetadata }>('/src/assets/members/*.{jpeg,jpg,png,gif,webp}', { eager: true });
 
 export const teamMembers = [
   {
     name: 'Povo43',
     role: 'オーナー / バックエンド / アーキテクチャ',
-    description: 'アーキテクチャ設計から実装、運用まで横断しながら、プロジェクト全体を前に進めています。',
-    image: '/dummy.webp',
+    description: '企画から実装、運用まで横断しながら、プロジェクト全体を前に進めています。',
+    image: images_mem['/src/assets/members/povo.webp']?.default,
     socials: [
-      { platform: 'github', label: 'GitHub', href: 'https://github.com/TeamKOTOCA' },
-      { platform: 'x', label: 'X', href: 'https://x.com/' },
-      { platform: 'qiita', label: 'Qiita', href: 'https://qiita.com/' },
-    ],
-  },
-  {
-    name: 'Core Members',
-    role: 'Web / Rust / Infra / Design',
-    description: '得意分野の違うメンバーが、相談しながらそれぞれのプロジェクトを育てています。',
-    image: '/dummy.webp',
-    socials: [
-      { platform: 'github', label: 'GitHub', href: 'https://github.com/TeamKOTOCA' },
-      { platform: 'qiita', label: 'Qiita', href: 'https://qiita.com/' },
+      { platform: 'github', label: 'GitHub', href: 'https://github.com/Povo-43' },
+      { platform: 'x', label: 'X', href: 'https://x.com/imme_kakeru' },
+      { platform: 'qiita', label: 'Qiita', href: 'https://qiita.com/Povo43' },
     ],
   },
 ];
@@ -177,6 +106,8 @@ export const communityPartners = [
   {
     name: 'Sakana Cloud Lab',
     description: 'Swifty読み上げBotをはじめ、多様なサービスの開発・ホスティングを行うコミュニティです。',
-    image: '/dummy.webp',
+    image: 'https://cdn.sakana11.org/cloud/sakanacloud.png',
+    href: 'https://sakana11.org',
+    href_value: '公式サイトへ',
   },
 ];

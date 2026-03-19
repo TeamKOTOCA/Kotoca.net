@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { blogItems, communityPartners, newsItems, projects, teamMembers } from '../components/siteData';
+import { Image } from 'astro:assets';
+import myImage from '../assets/member.jpg';
 
 const socialIcons = {
   github: {
@@ -33,7 +35,7 @@ const socialIcons = {
         <h1>楽しく、すごいものを。</h1>
         <p class="lead">
           TeamKOTOCAは、実用性と遊び心を両立するソフトウェアやツールを育てるプログラマー集団です。
-          Web / Rust / C / インフラまで横断し、個人のアイデアを実運用へ近づけます。
+          Web / 低レベル / インフラまで横断し、個人のアイデアを実運用へ近づけます。
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://discord.gg/n55hNZ5gbn" target="_blank" rel="noreferrer">公式Discord</a>
@@ -44,7 +46,7 @@ const socialIcons = {
           <article class="panel owner-panel floating-card">
             <span class="meta-label">運営</span>
             <strong>Povo43 (いんめ)</strong>
-            <p>アーキテクチャ設計から実装、運用まで横断して進める中核メンバーです。</p>
+            <p>発案から実装、運用まで横断してワンオペで進めるメンバーです。</p>
           </article>
           <div class="stats-grid">
             <article class="stat-card">
@@ -55,22 +57,18 @@ const socialIcons = {
               <strong>募集中</strong>
               <p>コアメンバー / コラボメンバー</p>
             </article>
-            <article class="stat-card">
-              <strong>Static Ready</strong>
-              <p>Cloudflare Pages で公開しやすい静的構成</p>
-            </article>
           </div>
         </div>
       </div>
 
       <aside class="hero-aside">
         <article class="story-card spotlight-card floating-card large-spotlight">
-          <img src="/dummy.webp" alt="チーム紹介用のイメージ" loading="lazy" />
+          <Image src={myImage} alt="メンバー募集の背景" class="hero-image" />
           <span class="meta-label">Pick Up</span>
-          <h2>つくる余白を、もっと広く。</h2>
+          <h2>メンバー募集中</h2>
           <p>
-            情報設計にゆとりを持たせ、余白・導線・視線移動にリズムをつけることで、
-            トップページ全体を自然に読み進められる構成へ整えました。
+            TeamKOTOCAはPovo43が立ち上げて以来、永遠にワンオペを続けている組織です。 <br>
+            気になるプロジェクトがあれば軽い気持ちで参加してもらったら嬉しいです。
           </p>
           <div class="pulse-orb" aria-hidden="true"></div>
         </article>
@@ -81,15 +79,11 @@ const socialIcons = {
   <section class="ticker-section">
     <div class="ticker-shell" aria-label="TeamKOTOCAのキーワード">
       <div class="ticker-track">
-        <span>Build Fast</span>
-        <span>Ship Small</span>
         <span>Review Together</span>
-        <span>Web / Rust / C / Infra</span>
+        <span>Web / Infra</span>
         <span>Join TeamKOTOCA</span>
-        <span>Build Fast</span>
-        <span>Ship Small</span>
         <span>Review Together</span>
-        <span>Web / Rust / C / Infra</span>
+        <span>Web / Infra</span>
         <span>Join TeamKOTOCA</span>
       </div>
     </div>
@@ -102,14 +96,14 @@ const socialIcons = {
           <span class="eyebrow">About</span>
           <h2>組織について</h2>
         </div>
-        <p class="section-copy">学習用で終わらせず、継続運用できるものを早く作り、早く試し、早く改善します。</p>
+        <p class="section-copy">学習用で終わらせず、継続運用できるものを作っています。</p>
       </div>
       <div class="editorial-grid">
         <article class="manifesto-panel panel">
           <span class="meta-label">Manifesto</span>
-          <h3>個人の熱量を、チームの推進力へ変える。</h3>
+          <h3>楽に作る。</h3>
           <p>
-            思いつきで終わらせず、試作・相談・改善を繰り返しながら「実際に使えるもの」へ育てるのがTeamKOTOCAのスタイルです。
+            力を抜いて、純粋に楽しくプログラミングを行うのがTeamKOTOCAのスタイルです。
           </p>
         </article>
         <div class="info-stack">
@@ -119,7 +113,7 @@ const socialIcons = {
           </article>
           <article class="card info-card tilt-card">
             <h3>Value</h3>
-            <p>早く作る、早く試す、早く改善する。レビューと対話を通じて個人の成長とチーム成果を両立します。</p>
+            <p>力を籠めすぎないことで広い視野と長い視点を持って開発が行えます。</p>
           </article>
           <article class="card info-card tilt-card">
             <h3>Culture</h3>
@@ -137,7 +131,7 @@ const socialIcons = {
           <span class="eyebrow">Projects</span>
           <h2>プロジェクト一覧</h2>
         </div>
-        <p class="section-copy">公開中の取り組みや、これから磨いていく構想を、見た目にも変化をつけながら一覧化しました。</p>
+        <p class="section-copy">公開中の取り組みの一覧です。</p>
       </div>
       <div class="projects-showcase">
         {projects.map((project, index) => (
@@ -153,7 +147,7 @@ const socialIcons = {
               </div>
             </div>
             <div class="project-band-visual">
-              <img src={project.image} alt={project.imageAlt} loading="lazy" />
+              <Image src={project.image} alt={project.imageAlt} width={800} height={450} />
               <div class="visual-grid" aria-hidden="true">
                 <span></span><span></span><span></span><span></span>
               </div>
@@ -225,7 +219,7 @@ const socialIcons = {
       <div class="profile-grid team-grid">
         {teamMembers.map((member) => (
           <article class="profile-card team-card">
-            <img src={member.image} alt={`${member.name} のプロフィール画像`} loading="lazy" />
+            <Image src={member.image} alt={`${member.name} のプロフィール画像`} width={200} height={200} />
             <div class="profile-content">
               <h3>{member.name}</h3>
               <p class="profile-role">{member.role}</p>
@@ -249,8 +243,8 @@ const socialIcons = {
           </article>
         ))}
         <article class="join-card panel">
-          <span class="meta-label">募集職種</span>
-          <h3>Web / Rust / C / Infra / Design</h3>
+          <span class="meta-label">募集メンバー</span>
+          <h3>Web / Rust / C / Infra / Design and so on...</h3>
           <p>「作ってみたい」「誰かと一緒に育てたい」という気持ちがあれば、学生・社会人を問わず歓迎します。</p>
           <a class="btn btn-primary" href="https://discord.gg/n55hNZ5gbn" target="_blank" rel="noreferrer">募集を見る</a>
         </article>
@@ -274,11 +268,6 @@ const socialIcons = {
         </article>
         <article class="activity-step card">
           <span class="step-no">02</span>
-          <h3>設計レビュー</h3>
-          <p>短いサイクルで相談しながら、実装だけでなくアーキテクチャや運用導線も整えます。</p>
-        </article>
-        <article class="activity-step card">
-          <span class="step-no">03</span>
           <h3>ナレッジ共有</h3>
           <p>試したこと、失敗したこと、役立った手順をチームで共有し、次の挑戦を速くします。</p>
         </article>
@@ -301,6 +290,7 @@ const socialIcons = {
             <div class="profile-content">
               <h3>{community.name}</h3>
               <p>{community.description}</p>
+              <a href={community.href}>{community.href_value}</a>
             </div>
           </article>
         ))}
@@ -316,6 +306,7 @@ const socialIcons = {
           <h2>お問い合わせ</h2>
         </div>
       </div>
+      <p>お問い合わせは<a href="mailto:contact@kotoca.net">contact@kotoca.net</a>へのメールでも受け付けています。</p>
       <article class="contact-card">
         <form action="https://sites-backends.onrender.com/contacts" method="post" class="contact-form">
           <label>
@@ -341,7 +332,7 @@ const socialIcons = {
       <article class="recruit-banner">
         <div>
           <span class="eyebrow">Recruit</span>
-          <h2>ページの下部でも、仲間を募集しています。</h2>
+          <h2>仲間を募集しています。</h2>
           <p>
             一緒に何かを育てたい人、レビューし合える開発仲間がほしい人、
             実運用に近い開発を経験したい人を歓迎します。雑談からでも気軽にどうぞ。
@@ -358,6 +349,12 @@ const socialIcons = {
 
 <style>
   .hero-section { padding-top: clamp(3rem, 10vw, 7rem); }
+  .hero-image {
+    width: 100%;       /* 親要素の幅いっぱいに広げる */
+    height: auto;      /* 縦横比を維持して自動計算 */
+    display: block;    /* 下に謎の隙間ができるのを防ぐ */
+    object-fit: cover; /* もし親の高さが固定されている場合に、綺麗に切り抜くならこれ */
+  }
   .mesh-section {
     position: relative;
     overflow: clip;
@@ -677,10 +674,19 @@ const socialIcons = {
   .team-card { min-height: 100%; }
   .profile-card img {
     width: 100%;
-    height: 100%;
-    min-height: 220px;
+    height: 200px;
     object-fit: cover;
-    background: rgba(255,255,255,0.3);
+    object-position: center;
+    display: block;
+  }
+  #communities .profile-card a{
+    color: #fff;
+    background-color: #000;
+    padding: 0.75em 2em;
+    display: block;
+  }
+  #communities .profile-card a:hover{
+    background-color: #555;
   }
   .profile-content { padding: 1.4rem; }
   .profile-role {
