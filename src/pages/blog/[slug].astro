@@ -5,7 +5,7 @@ import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
   const blogItems = await getCollection('blog');
 
-  return blogItems.map((item) => ({
+  return blogItems.map((item: any) => ({
     params: { slug: item.id.replace(/\.md$/, '') },
     props: { item },
   }));
@@ -13,6 +13,8 @@ export async function getStaticPaths() {
 
 const { item } = Astro.props;
 const { Content } = await render(item);
+import { Image } from 'astro:assets';
+import noimg_Image from 'src/assets/noimg.png';
 ---
 
 <BaseLayout title={`${item.data.title} | TeamKOTOCA`} description={item.data.summary} currentPath="/blog">
@@ -23,9 +25,9 @@ const { Content } = await render(item);
         <span class="eyebrow">Blog Article</span>
         <h1>{item.data.title}</h1>
         <time datetime={item.data.date.toISOString()}>{item.data.date.toLocaleDateString('ja-JP')}</time>
-        <p class="hero-copy">{item.data.hero}</p>
+        <p class="hero-copy">{item.data.summary}</p>
       </div>
-      <img src={item.data.image ?? '/dummy.webp'} alt="記事イメージ" loading="lazy" />
+      <Image src={noimg_Image} alt="記事の画像" width={800} height={450}/>
     </div>
   </article>
 
