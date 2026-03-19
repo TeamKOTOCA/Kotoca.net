@@ -1,12 +1,14 @@
 ---
 import { navItems } from './siteData';
 const { currentPath = '/' } = Astro.props;
+import { Image } from 'astro:assets';
+import orgImage from 'src/assets/KOTOCA.webp';
 ---
 
 <header class="site-header">
   <div class="container header-shell">
     <a class="brand" href="/" aria-label="TeamKOTOCA ホーム">
-      <span class="logo" aria-hidden="true">K</span>
+      <Image class="logo" src={ orgImage } alt="header画像"/>
       <div>
         <div class="brand-main">TeamKOTOCA</div>
         <div class="brand-sub">楽しく、すごいものを。</div>
