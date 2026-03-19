@@ -1,41 +1,39 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { blogItems } from '../../components/siteData';
+import { getCollection, render } from 'astro:content';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const blogItems = await getCollection('blog');
+
   return blogItems.map((item) => ({
-    params: { slug: item.slug },
+    params: { slug: item.id.replace(/\.md$/, '') },
     props: { item },
   }));
 }
 
 const { item } = Astro.props;
+const { Content } = await render(item);
 ---
 
-<BaseLayout title={`${item.title} | TeamKOTOCA`} description={item.summary} currentPath="/blog">
+<BaseLayout title={`${item.data.title} | TeamKOTOCA`} description={item.data.summary} currentPath="/blog">
   <article class="article-hero">
     <div class="container article-hero-grid fade-in">
       <div>
         <a class="back-link" href="/blog">← Blog一覧へ戻る</a>
         <span class="eyebrow">Blog Article</span>
-        <h1>{item.title}</h1>
-        <time datetime={item.date}>{item.date}</time>
-        <p class="hero-copy">{item.hero}</p>
+        <h1>{item.data.title}</h1>
+        <time datetime={item.data.date.toISOString()}>{item.data.date.toLocaleDateString('ja-JP')}</time>
+        <p class="hero-copy">{item.data.hero}</p>
       </div>
-      <img src="/dummy.webp" alt="記事イメージのダミー画像" loading="lazy" />
+      <img src={item.data.image ?? '/dummy.webp'} alt="記事イメージ" loading="lazy" />
     </div>
   </article>
 
   <section>
     <div class="container article-shell fade-in">
-      {item.sections.map((section) => (
-        <section class="article-section">
-          <h2>{section.heading}</h2>
-          {section.paragraphs.map((paragraph) => (
-            <p>{paragraph}</p>
-          ))}
-        </section>
-      ))}
+      <article class="article-section prose">
+        <Content />
+      </article>
     </div>
   </section>
 </BaseLayout>
@@ -84,15 +82,42 @@ const { item } = Astro.props;
     border: 1px solid var(--line);
     box-shadow: var(--shadow-card);
   }
-  .article-section h2 {
+  .prose :global(h2) {
     margin: 0 0 1rem;
     font-size: 1.5rem;
   }
-  .article-section p {
+  .prose :global(p) {
     margin: 0 0 1rem;
     color: var(--muted);
+    line-height: 1.8;
   }
-  .article-section p:last-child { margin-bottom: 0; }
+  .prose :global(p:last-child) { margin-bottom: 0; }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1rem;
+    padding-left: 1.4rem;
+    color: var(--muted);
+  }
+  .prose :global(li + li) {
+    margin-top: 0.45rem;
+  }
+  .prose :global(a) {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+  .prose :global(blockquote) {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--line);
+    color: var(--muted);
+  }
+  .prose :global(code) {
+    padding: 0.1rem 0.35rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 0.35rem;
+    font-size: 0.92em;
+  }
   @media (max-width: 800px) {
     .article-hero-grid { grid-template-columns: 1fr; }
   }

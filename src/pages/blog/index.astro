@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { blogItems } from '../../components/siteData';
+import { getCollection } from 'astro:content';
+
+const blogItems = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
 ---
 
 <BaseLayout title="Blog | TeamKOTOCA" description="TeamKOTOCAのBlog一覧ページです。" currentPath="/blog">
@@ -8,7 +12,7 @@ import { blogItems } from '../../components/siteData';
     <div class="container fade-in">
       <span class="eyebrow">Blog</span>
       <h1>Blog</h1>
-      <p>TeamKOTOCAの考え方や開発スタイルを紹介する読み物をまとめています。各記事は個別ページでじっくり読めます。</p>
+      <p>TeamKOTOCAの考え方や開発スタイルを紹介する読み物をまとめています。各記事はMarkdownで管理でき、個別ページでじっくり読めます。</p>
     </div>
   </article>
 
@@ -17,11 +21,11 @@ import { blogItems } from '../../components/siteData';
       {blogItems.map((item) => (
         <article class="feed-card">
           <div class="feed-meta">
-            <time datetime={item.date}>{item.date}</time>
-            <a class="feed-link" href={`/blog/${item.slug}`}>記事を読む</a>
+            <time datetime={item.data.date.toISOString()}>{item.data.date.toLocaleDateString('ja-JP')}</time>
+            <a class="feed-link" href={`/blog/${item.id.replace(/\.md$/, '')}`}>記事を読む</a>
           </div>
-          <h2><a href={`/blog/${item.slug}`}>{item.title}</a></h2>
-          <p>{item.summary}</p>
+          <h2><a href={`/blog/${item.id.replace(/\.md$/, '')}`}>{item.data.title}</a></h2>
+          <p>{item.data.summary}</p>
         </article>
       ))}
     </div>
