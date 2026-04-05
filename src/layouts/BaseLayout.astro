@@ -44,6 +44,13 @@ const socialImageURL = new URL(ogImage, Astro.site);
     <meta name="twitter:image" content={socialImageURL} />
     
     <link rel="canonical" href={canonicalURL} />
+    <script is:inline>
+      (() => {
+        const themes = ['classic', 'neon-night', 'aurora-glass'];
+        const selected = themes[Math.floor(Math.random() * themes.length)];
+        document.documentElement.setAttribute('data-theme', selected);
+      })();
+    </script>
   </head>
   <body>
     <Header currentPath={currentPath} />
@@ -69,6 +76,46 @@ const socialImageURL = new URL(ogImage, Astro.site);
     --shadow-soft: 0 14px 40px rgba(0, 0, 0, 0.06);
     --shadow-card: 0 10px 24px rgba(0, 0, 0, 0.05);
     --section-space: clamp(4.5rem, 8vw, 8rem);
+    --surface-filter: none;
+    --header-bg: rgba(244, 238, 205, 0.82);
+    --nav-bg-mobile: rgba(244, 238, 205, 0.96);
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-pill: 0;
+  }
+
+  :root[data-theme='neon-night'] {
+    --bg: #050315;
+    --fg: #f5f8ff;
+    --muted: #9db4ff;
+    --card-bg: #0d1330;
+    --line: rgba(107, 130, 255, 0.25);
+    --line-strong: rgba(165, 187, 255, 0.72);
+    --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.55);
+    --shadow-card: 0 16px 35px rgba(10, 16, 42, 0.75);
+    --surface-filter: saturate(1.16);
+    --header-bg: rgba(7, 9, 32, 0.78);
+    --nav-bg-mobile: rgba(10, 13, 44, 0.98);
+    --radius-md: 18px;
+    --radius-lg: 28px;
+    --radius-pill: 999px;
+  }
+
+  :root[data-theme='aurora-glass'] {
+    --bg: #eaf4ff;
+    --fg: #0f1c3f;
+    --muted: #425986;
+    --card-bg: rgba(255, 255, 255, 0.56);
+    --line: rgba(44, 99, 255, 0.16);
+    --line-strong: rgba(17, 70, 230, 0.4);
+    --shadow-soft: 0 28px 75px rgba(50, 78, 150, 0.2);
+    --shadow-card: 0 12px 35px rgba(49, 98, 213, 0.14);
+    --surface-filter: blur(8px) saturate(1.08);
+    --header-bg: rgba(255, 255, 255, 0.6);
+    --nav-bg-mobile: rgba(255, 255, 255, 0.86);
+    --radius-md: 16px;
+    --radius-lg: 26px;
+    --radius-pill: 999px;
   }
 
   * { box-sizing: border-box; }
@@ -96,7 +143,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     top: 0;
     z-index: 30;
     backdrop-filter: blur(12px);
-    background: rgba(244, 238, 205, 0.82);
+    background: var(--header-bg);
     border-bottom: 1px solid var(--line);
   }
 
@@ -129,6 +176,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     font-size: 1.25rem;
     font-weight: 800;
     line-height: 1;
+    border-radius: var(--radius-md);
   }
 
   .brand-main { font-size: 1rem; }
@@ -151,6 +199,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     cursor: pointer;
     box-shadow: var(--shadow-card);
     transition: transform 180ms ease, background-color 180ms ease;
+    border-radius: var(--radius-md);
   }
 
   .menu-toggle span {
@@ -176,6 +225,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
     padding: 0 0.95rem;
     border: 1px solid transparent;
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, opacity 180ms ease;
+    border-radius: var(--radius-pill);
   }
 
   .nav-list a:hover,
@@ -248,6 +298,9 @@ const socialImageURL = new URL(ogImage, Astro.site);
     box-shadow: var(--shadow-card);
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-lg);
+    backdrop-filter: var(--surface-filter);
+    -webkit-backdrop-filter: var(--surface-filter);
   }
 
   .card::after,
@@ -281,6 +334,77 @@ const socialImageURL = new URL(ogImage, Astro.site);
     border-top: 1px solid var(--line);
   }
 
+  :root[data-theme='neon-night'] body {
+    background:
+      radial-gradient(circle at 18% 10%, rgba(167, 100, 255, 0.34), transparent 35%),
+      radial-gradient(circle at 84% 20%, rgba(0, 235, 255, 0.24), transparent 30%),
+      linear-gradient(180deg, #09041f 0%, #050315 100%);
+  }
+
+  :root[data-theme='neon-night'] .section-heading h2,
+  :root[data-theme='neon-night'] .page-hero h1 {
+    border-bottom-color: #7ff7ff;
+    text-shadow: 0 0 14px rgba(127, 247, 255, 0.35);
+  }
+
+  :root[data-theme='neon-night'] .nav-list a:hover,
+  :root[data-theme='neon-night'] .nav-list a:focus-visible,
+  :root[data-theme='neon-night'] .nav-list a.is-active {
+    background: linear-gradient(120deg, rgba(126, 250, 255, 0.26), rgba(173, 107, 255, 0.22));
+    border-color: rgba(180, 221, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(120, 201, 255, 0.45), 0 0 18px rgba(102, 225, 255, 0.25);
+  }
+
+  :root[data-theme='neon-night'] .nav-cta {
+    color: #050315;
+    background: linear-gradient(120deg, #7efaff, #b584ff) !important;
+    border-color: transparent !important;
+  }
+
+  :root[data-theme='neon-night'] .card::after,
+  :root[data-theme='neon-night'] .panel::after,
+  :root[data-theme='neon-night'] .story-card::after,
+  :root[data-theme='neon-night'] .project-card::after,
+  :root[data-theme='neon-night'] .stat-card::after,
+  :root[data-theme='neon-night'] .news-card::after,
+  :root[data-theme='neon-night'] .blog-card::after,
+  :root[data-theme='neon-night'] .contact-card::after {
+    background: linear-gradient(130deg, rgba(126, 250, 255, 0.32), rgba(173, 107, 255, 0.18) 45%, transparent 75%);
+  }
+
+  :root[data-theme='aurora-glass'] body {
+    background:
+      radial-gradient(circle at 8% 10%, rgba(118, 194, 255, 0.28), transparent 38%),
+      radial-gradient(circle at 92% 14%, rgba(189, 154, 255, 0.25), transparent 30%),
+      linear-gradient(160deg, #ecf8ff 0%, #f6f1ff 45%, #e9efff 100%);
+  }
+
+  :root[data-theme='aurora-glass'] .site-header,
+  :root[data-theme='aurora-glass'] .site-footer {
+    backdrop-filter: blur(10px) saturate(1.12);
+    -webkit-backdrop-filter: blur(10px) saturate(1.12);
+  }
+
+  :root[data-theme='aurora-glass'] .section-heading h2,
+  :root[data-theme='aurora-glass'] .page-hero h1 {
+    border-bottom-width: 3px;
+    border-image: linear-gradient(90deg, #4f7cff, #71d6ff) 1;
+  }
+
+  :root[data-theme='aurora-glass'] .nav-list a:hover,
+  :root[data-theme='aurora-glass'] .nav-list a:focus-visible,
+  :root[data-theme='aurora-glass'] .nav-list a.is-active {
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(67, 120, 255, 0.35);
+    box-shadow: 0 8px 16px rgba(67, 120, 255, 0.14);
+  }
+
+  :root[data-theme='aurora-glass'] .nav-cta {
+    color: #ffffff;
+    background: linear-gradient(120deg, #4883ff, #6e63ff) !important;
+    border-color: transparent !important;
+  }
+
   .footer-shell { color: var(--muted); }
 
   .fade-in {
@@ -302,7 +426,7 @@ const socialImageURL = new URL(ogImage, Astro.site);
       right: 0;
       min-width: min(88vw, 340px);
       padding: 0.85rem;
-      background: rgba(244, 238, 205, 0.96);
+      background: var(--nav-bg-mobile);
       border: 1px solid var(--line-strong);
       box-shadow: var(--shadow-soft);
       opacity: 0;
